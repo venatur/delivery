@@ -1,6 +1,7 @@
 from . import login
 from flask import render_template, request, jsonify
 from app.models import User
+from app import db
 
 
 @login.route('/signup')
@@ -12,8 +13,6 @@ def home():
 @login.route('/add', methods=['GET', 'POST'])
 def add():
     error = None
-    user_list = []
-
     # get data from JSON
     body = request.get_json()
 
@@ -21,7 +20,7 @@ def add():
     if body != error:
         # Verification of POST method
         if request.method == 'POST':
-            # blucle for empty values findings
+            # bucle for empty values findings
             for item in body:
                 if body.get(item) is not "":
                     pass
@@ -30,7 +29,10 @@ def add():
                         message='missing value in 1 or more parameters',
                         status=400
                     )
-
+            # user = User(**body)
+            # db.session.add(user)
+            # db.session.commit()
+            User.query.limit(1).all()
             return jsonify(
                 message="everything is good",
                 status=200
