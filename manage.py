@@ -9,9 +9,10 @@ app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
 
 migrate = Migrate(app, db)
-migrate.init_app(app,db)
+migrate.init_app(app, db)
 manager = Manager(app)
 db.init_app(app)
+
 def make_shell_context():
     return dict(app=app, db=db)
 

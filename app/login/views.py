@@ -29,9 +29,9 @@ def add():
                         message='missing value in 1 or more parameters',
                         status=400
                     )
-            # user = User(**body)
-            # db.session.add(user)
-            # db.session.commit()
+            user = User(**body)
+            db.session.add(user)
+            db.session.commit()
             User.query.limit(1).all()
             return jsonify(
                 message="everything is good",
