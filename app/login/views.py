@@ -2,6 +2,7 @@ from . import login
 from flask import render_template, request, jsonify
 from app.models import User
 from app import db
+from bcrypt import gensalt, hashpw
 
 
 @login.route('/signup')
@@ -29,12 +30,28 @@ def add():
                         message='missing value in 1 or more parameters',
                         status=400
                     )
-            user = User(**body)
-            db.session.add(user)
-            db.session.commit()
-            User.query.limit(1).all()
+            # grabs all values from dictionary and store it
+            if User.query.filter_by(email=body['email']).first() and User.query.filter_by(username=body['username']).first():
+                return jsonify(
+                    message="already existis username or email",
+                    status=400
+                )
+            else:
+
+                password = body['password_hash']
+                h = hashpw(password.encode(), gensalt())
+                body['password_hash'] = h
+                user = User(**body)
+                db.session.add(user)
+                user = User(**body)
+                db.session.add(user)
+                try:
+                    db.session.commit()
+                except db.error as e:
+                    db.session.rollback()
+
             return jsonify(
-                message="everything is good",
+                message="User Added",
                 status=200
             )
 

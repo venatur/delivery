@@ -11,9 +11,6 @@ db = SQLAlchemy()
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
-    #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///delivery.db'
-    #config[config_name].init_app(app)
-
 
     #blueprints
     from app.login import login

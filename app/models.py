@@ -9,4 +9,5 @@ class User(db.Model):
     name = db.Column(db.String(32))
     last_name = db.Column(db.String(32))
     company = db.Column(db.String(32))
-    password_hash = db.Column(db.String(128))
+    password_hash = db.Column(db.Text(256))
+    email = db.Column(db.String(60))
